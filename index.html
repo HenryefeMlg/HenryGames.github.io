@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Henry Games</title>
+    <style>
+        :root {
+            --primary-color: #6a0dad; /* Deep Purple */
+            --secondary-color: #e0b0ff; /* Light Purple */
+            --text-color: #333;
+            --light-text-color: #f8f8f8;
+            --background-color: #f0f2f5; /* Light Gray */
+            --card-background: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --spacing-xs: clamp(0.5rem, 1.5vw, 0.75rem);
+            --spacing-sm: clamp(0.75rem, 2vw, 1rem);
+            --spacing-md: clamp(1rem, 3vw, 1.5rem);
+            --spacing-lg: clamp(1.5rem, 4vw, 2rem);
+            --font-size-sm: clamp(0.9rem, 2vw, 1rem);
+            --font-size-md: clamp(1rem, 2.5vw, 1.25rem);
+            --font-size-lg: clamp(1.5rem, 4vw, 2rem);
+            --font-size-xl: clamp(2rem, 6vw, 3rem);
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--background-color);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: var(--text-color);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+            box-sizing: border-box;
+        }
+
+        #app-container {
+            width: min(90vw, 1200px);
+            max-height: 90vh;
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+            padding: var(--spacing-lg);
+            box-sizing: border-box;
+        }
+
+        .header-text {
+            position: absolute;
+            top: var(--spacing-md);
+            left: var(--spacing-md); /* Changed from right to left */
+            font-size: var(--font-size-sm);
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            width: 100%;
+            text-align: center;
+            gap: var(--spacing-md);
+            padding-top: var(--spacing-lg);
+        }
+
+        h1 {
+            font-size: var(--font-size-lg);
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.3;
+        }
+
+        input[type="text"] {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--secondary-color);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-md);
+            width: min(80%, 300px);
+            max-width: 100%;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.2);
+        }
+
+        button {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            min-height: 44px;
+            min-width: 100px;
+        }
+
+        button:hover {
+            background-color: #5a0a9a;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        #result-screen h1 {
+            font-size: var(--font-size-xl);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        @media (max-width: 480px) {
+            #app-container {
+                padding: var(--spacing-md);
+            }
+            .header-text {
+                font-size: var(--font-size-sm);
+                top: var(--spacing-sm);
+                left: var(--spacing-sm); /* Changed from right to left */
+            }
+            h1 {
+                font-size: var(--font-size-md);
+            }
+            #result-screen h1 {
+                font-size: var(--font-size-lg);
+            }
+            input[type="text"], button {
+                font-size: var(--font-size-sm);
+                padding: var(--spacing-xs) var(--spacing-md);
+            }
+        }
+
+        @media (min-width: 1025px) {
+            #app-container {
+                padding: var(--spacing-lg) calc(var(--spacing-lg) * 1.5);
+            }
+            .header-text {
+                font-size: var(--font-size-md);
+            }
+            h1 {
+                font-size: var(--font-size-xl);
+            }
+            #result-screen h1 {
+                font-size: calc(var(--font-size-xl) * 1.2);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        <div class="header-text">Henry Games</div>
+
+        <main id="initial-screen" class="screen">
+            <h1>İsminizi tek bir soruyla tahmin edeceğim 🤔</h1>
+            <input type="text" id="nameInput" placeholder="İsminizi buraya yazın">
+            <button id="okButton">OK</button>
+        </main>
+
+        <main id="result-screen" class="screen" style="display: none;">
+            <h1 id="greeting"></h1>
+            <button id="resetButton">İsmini nasıl tahmin ettin? ❓</button>
+        </main>
+    </div>
+
+    <script>
+        document.body.addEventListener('dblclick', function(event) {
+            event.preventDefault();
+        });
+
+        const APP_STORAGE_KEY = 'henry_games_app_v1';
+        window.APP_STORAGE_KEY = APP_STORAGE_KEY;
+
+        const nameInput = document.getElementById('nameInput');
+        const okButton = document.getElementById('okButton');
+        const resetButton = document.getElementById('resetButton');
+        const initialScreen = document.getElementById('initial-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const greetingElement = document.getElementById('greeting');
+
+        function saveData(name) {
+            localStorage.setItem(APP_STORAGE_KEY + '_userName', JSON.stringify(name));
+        }
+
+        function loadData() {
+            const savedName = localStorage.getItem(APP_STORAGE_KEY + '_userName');
+            if (savedName) {
+                const name = JSON.parse(savedName);
+                if (name) {
+                    greetingElement.textContent = `Merhaba ${name} 👋`;
+                    initialScreen.style.display = 'none';
+                    resultScreen.style.display = 'flex';
+                }
+            }
+        }
+
+        function clearData() {
+            localStorage.removeItem(APP_STORAGE_KEY + '_userName');
+        }
+
+        okButton.addEventListener('click', () => {
+            const userName = nameInput.value.trim();
+            if (userName) {
+                greetingElement.textContent = `Merhaba ${userName} 👋`;
+                initialScreen.style.display = 'none';
+                resultScreen.style.display = 'flex';
+                saveData(userName);
+            } else {
+                alert('Lütfen isminizi girin!');
+            }
+        });
+
+        resetButton.addEventListener('click', () => {
+            nameInput.value = '';
+            initialScreen.style.display = 'flex';
+            resultScreen.style.display = 'none';
+            clearData();
+        });
+
+        window.addEventListener('load', loadData);
+    </script>
+</body>
+</html>
